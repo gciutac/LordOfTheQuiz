@@ -20,6 +20,6 @@ services:
   backend:
     build: ./nodebackend
     ports:
-      - '5552:3000' # Adjust if using a different port in production
+      - '5552:5552' # Adjust if using a different port in production
 volumes:
   mongodb_data:

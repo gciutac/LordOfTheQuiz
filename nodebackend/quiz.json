@@ -1,0 +1,53 @@
+{
+  "name": "Game",
+  "gameId": "123123",
+  "createdByUser": "123123",
+  "questions": [
+    {
+      "type": "MultipleChoice | SubmitAnswer",
+      "hint": "This is a hint",
+      "body": [
+        {
+          "type": "text",
+          "content": "What is the capital of France?"
+        },
+        {
+          "type": "video",
+          "content": "https://www.youtube.com/watch?v=9yZQKm7MA9c"
+        },
+        {
+          "type": "image",
+          "content": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+        },
+        {
+          "type": "audio",
+          "content": "https://www.youtube.com/watch?v=9yZQKm7MA9c"
+        }
+      ],
+      "answers": [
+        {
+          "type": "text",
+          "isCorrect": true,
+          "content": "Paris",
+          "points": 10
+        },
+        {
+          "type": "text",
+          "isCorrect": false,
+          "content": "Lyon",
+          "points": 1
+        },
+        {
+          "type": "text",
+          "content": "Marseille",
+          "points": 1
+        },
+        {
+          "type": "choice",
+          "content": "Toulouse",
+          "points": 1
+        }
+      ]
+    }
+  ]
+}
