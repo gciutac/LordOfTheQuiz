@@ -17,5 +17,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongodb_data:/data/db
+  backend:
+    build: ./nodebackend
+    ports:
+      - '5552:3000' # Adjust if using a different port in production
 volumes:
   mongodb_data:
