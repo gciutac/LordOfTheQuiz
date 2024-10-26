@@ -18,7 +18,7 @@ const MultipleChoiseQuestion = ({ id, text, media, answers }) => {
         <div className="w-100">
         <ListGroup className="list-group">
           {answers.map((answer) => (
-            <ListGroup.Item key={answer.id}>
+            <ListGroup.Item key={answer.id} on>
               {answer.id}. {answer.content}
             </ListGroup.Item>
           ))}

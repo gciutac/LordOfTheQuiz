@@ -4,8 +4,8 @@ export const GameContext = React.createContext();
 
 export const GamerProvider = ({ children }) => {
     const [game, setGame] = React.useState({
-        quizId: "",
-        gameCode: "", 
+        gameId: "",
+        gameKey: "", 
       });
     
       const updateGame = (newGameInfo) => {

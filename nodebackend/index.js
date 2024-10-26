@@ -5,9 +5,10 @@ const fs = require('fs')
 const path = require('path')
 const app = express()
 
-const { createGame, nextQuestion } = require('./src/service/GameService')
+const { createGame, nextQuestion, fetchGame } = require('./src/service/GameService')
 const { joinGame } = require('./src/service/PlayerService')
 const port = 5552
+const { Server } = require('socket.io');
 
 connectDB()
 
@@ -39,6 +40,11 @@ const answer = {
   points: 0,
 }
 
+const io = new Server(5553, {
+  cors: {
+    origin: '*',
+  },
+});
 app.get('/', (req, res) => {
   res.send('Quiz!')
 })
@@ -52,6 +58,13 @@ app.get('/api/quiz', (req, res) => {
     }
     res.json(JSON.parse(data))
   })
+})
+
+app.get('/api/game/:gamekey', async (req, res) => {
+  const { gamekey } = req.params
+  const result = await fetchGame(gamekey)
+  console.log('Game fetched:', result)
+  res.json(result)
 })
 
 // Used by the admin
@@ -68,6 +81,7 @@ app.get('/api/next-question/:gameKey', async (req, res) => {
   const { gameKey } = req.params
   const updatedGame = await nextQuestion(gameKey)
   console.log('Next question:', updatedGame)
+  io.emit('gameStatus', {gameStatus: updatedGame.gameStatus, currentQuestion: updatedGame.currentQuestion})
   res.json(updatedGame)
 })
 
@@ -108,4 +122,12 @@ app.post(
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
+})
+
+io.on('connection', (socket) => {
+  console.log('A user connected')
+  socket.on('gameStatus', (gameStatus) => {
+    console.log('Game Status updated:', gameContext)
+    io.emit('gameStatus', gameStatus)
+  })
 })

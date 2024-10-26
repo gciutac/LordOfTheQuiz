@@ -1,34 +1,77 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import MultipleChoiseQuestion from './components/MultipleChoiseQuestion'
 import { useLocation, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
+import { GameContext } from '../context/GameContext'
+import { Button, Container} from 'react-bootstrap'
 
 const StartQuiz = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const { quizData } = location.state || {}
-  const { gameid } = useParams()
+  const user = useContext(UserContext).user;
+  const game = useContext(GameContext).game;
+  const [error, setError] = useState(null)
+  const [gameData, setGameData] = useState(null)
 
-  const [gameKey, setGameKey] = useState('')
+
+  const nextQuestion = async () => {
+    try {
+      const response = await fetch(`/api/next-question/${game.gameKey}`)
+      if (!response.ok) {
+        setError('Failed to increase question')
+      }
+    } catch (error) {
+      setError(error.message)
+      console.error('Error increasing question:', error)
+    }
+  }
+
+  const questionIncrease = () => {
+    // Handle the question increase logic here
+    nextQuestion()
+    console.log('Increase question')
+  }
+
+  const fetchGame = async () => {
+    try {
+      const response = await fetch(`/api/game/${game.gameKey}`)
+      if (!response.ok) {
+        setError('Failed to fetch game')
+      }
+      const data = await response.json()
+      setGameData(data)
+    } catch (error) {
+      setError(error.message)
+      console.error('Error fetching game:', error)
+    }
+  }
 
   useEffect(() => {
-    const gameId = quizData?.gameId
-    if (gameId) {
-      fetch(`/api/create-game/${gameId}`)
-        .then((response) => response.json())
-        .then((data) => setGameKey(data.gameKey))
-        .catch((error) => console.error('Error fetching game key:', error))
-    }
-  }, [quizData])
+    fetchGame()
+  }, [])
 
   return (
     <div>
-      {quizData && (
-        <MultipleChoiseQuestion
-          id={quizData.questions[0].id}
-          text={quizData.questions[0].text}
-          media={quizData.questions[0].media.content}
-          answers={quizData.questions[0].answers}
-        />
-      )}
+      <Container className="d-flex vh-100 align-items-center justify-content-center">
+        {quizData && gameData && gameData.currentQuestion>0 && (
+          <MultipleChoiseQuestion
+            id={quizData.questions[gameData.currentQuestion-1].id}
+            text={quizData.questions[gameData.currentQuestion-1].text}
+            media={quizData.questions[gameData.currentQuestion-1].media.content}
+            answers={quizData.questions[gameData.currentQuestion-1].answers}
+          />
+        )}
+        {user.userType === 'master' && (
+          <Button 
+          variant="primary"
+          className="text-center" 
+          onClick={questionIncrease}>
+            Next
+          </Button>
+        )}
+      </Container>
     </div>
   )
 }

@@ -15,6 +15,12 @@ const createGame = async (gameId) => {
   return result
 }
 
+const fetchGame = async (gameKey) => {
+  const game = await Games.findOne({ gameKey })
+  console.log('Game fetched:', game)
+  return game
+}
+
 const nextQuestion = async (gameKey) => {
   const game = await Games.findOne({ gameKey })
 
@@ -37,6 +43,12 @@ const nextQuestion = async (gameKey) => {
   if (game.currentQuestion === game.numberOfQuestions) {
     game.gameStatus = 'LAST_QUESTION'
   }
+  console.log('before new check')
+  if (game.gameStatus === 'NEW') {
+    game.gameStatus = 'RUNNING'
+    console.log('inside new check')
+  }
+  console.log('After new check')
   game.save()
   console.log('Next question:', game)
   return game
@@ -45,4 +57,5 @@ const nextQuestion = async (gameKey) => {
 module.exports = {
   createGame,
   nextQuestion,
+  fetchGame,
 }

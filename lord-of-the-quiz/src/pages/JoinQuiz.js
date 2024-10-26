@@ -7,12 +7,12 @@ import { GameContext } from '../context/GameContext';
 
 const JoinQuiz = () => {
   const { user, updateUser } = useContext(UserContext);
-  const { game, updateGame } = useContext(GameContext);
+  const updateGame = useContext(GameContext).updateGame;
   
-  const location = useLocation()
   const [error, setError] = useState(null)
   
   const [quizData, setQuizData] = useState(null)
+  const [gameData, setGameData] = useState(null)
   const navigate = useNavigate()
   // const { gameid } = location.state || {}
 
@@ -33,6 +33,46 @@ const JoinQuiz = () => {
     }
   }
 
+  const createGame = async () => {
+    try {
+      const response = await fetch(`/api/create-game/${quizData.gameId}`)
+      if (!response.ok) {
+        setError('Failed to fetch quiz data')
+      }
+      const data = await response.json()
+      setGameData(data)
+      updateGame({ gameId: data.gameId, gameKey: data.gameKey});
+    } catch (error) {
+      console.error('Error creating quiz:', error)
+    }
+  }
+
+  const joinGame = async () => {
+    try {
+      const response = await fetch(`/api/join-game/${gameKey}/player/${name}`)
+      if (!response.ok) {
+        setError('Failed to join game data')
+      }
+    } catch (error) {
+      console.error('Error joining game:', error)
+    }
+  }
+
+  const fetchGame = async () => {
+    try {
+      const response = await fetch(`/api/game/${gameKey}`)
+      if (!response.ok) {
+        setError('Failed to fetch game data')
+      }
+      const data = await response.json()
+      setGameData(data)
+      updateGame({ gameId: data.gameId, gameKey: data.gameKey });
+    } catch (error) {
+      console.error('Error fetching game:', error)
+      
+    }
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -40,20 +80,23 @@ const JoinQuiz = () => {
 
   const handleJoin = () => {
     // Handle the join logic here
+    joinGame()
+    fetchGame()
     updateUser({ username: name, userType: user.userType });
-    updateGame({ gameKey: gameKey, gameId:  quizData.gameId });
     console.log('Name:', name)
     console.log('Game Key:', gameKey)
-    navigate(`/game/${gameKey}`, { state: { quizData } })
+    navigate(`/loby`, { state: { quizData } })
+
+
   }
 
-  const handleCreate = () => {
+  const handleCreate = async() => {
     // Handle the create logic here
-    const gameKey = Math.floor(10000 + Math.random() * 90000) // Generate random 5-digit number
-    updateGame({ gameKey: gameKey, gameId:  quizData.gameId });
+    await createGame()
+    console.log('gameData:', gameData)
     updateUser({ username: name, userType: user.userType });
     console.log('Name:', name)
-    navigate(`/game/${gameKey}`, { state: { quizData } })
+    navigate(`/loby`, { state: { quizData } })
   }
 
   return (
