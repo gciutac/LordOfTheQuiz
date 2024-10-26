@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import MultipleChoiseQuestion from './MultipleChoiseQuestion'
 
 const Home = () => {
   const [name, setName] = useState('')
@@ -22,23 +23,11 @@ const Home = () => {
   }, [])
 
   return (
-    <section className="home">
-      <h1>Welcome to the Lord of the Quiz!</h1>
-      <h2>What is your name?</h2>
-      <form>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </form>
+    <div>
       {quizData && (
-        <div>
-          <h3>Quiz Data:</h3>
-          <pre>{JSON.stringify(quizData, null, 2)}</pre>
-        </div>
+          <MultipleChoiseQuestion id={quizData.questions[0].id} text={quizData.questions[0].text} media={quizData.questions[0].media.content} answers={quizData.questions[0].answers}/>
       )}
-    </section>
+    </div>
   )
 }
 

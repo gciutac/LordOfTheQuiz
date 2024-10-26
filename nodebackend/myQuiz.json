@@ -1,0 +1,188 @@
+{
+  "name": "My quiz",
+  "gameId": "123123",
+  "createdByUser": "123123",
+  "questions": [
+    {
+      "id": "1",
+      "multipleChoice": true,
+      "text": "What is the name of Harry Potter's owl?",
+      "media": {
+          "type": "image",
+          "content": "/Hedwig_Snowy_Owl_PM.webp"
+      },
+      "answers": [
+          {
+              "id": "A",
+              "type": "text",
+              "isCorrect": true,
+              "content": "Hedwig",
+              "points": 10
+          },
+          {
+              "id": "B",
+              "type": "text",
+              "isCorrect": false,
+              "content": "Errol"
+          },
+          {
+              "id": "C",
+              "type": "text",
+              "isCorrect": false,
+              "content": "Scabbers"
+          },
+          {
+              "id": "D",
+              "type": "text",
+              "isCorrect": false,
+              "content": "Crookshanks"
+          }
+      ]
+    },
+    {
+        "id": "2",
+        "multipleChoice": true,
+        "text": "What house was Moaning Myrtle in while she was a student at Hogwarts?",
+        "media": {
+            "type": "image",
+            "content": ""
+        },
+        "answers": [
+            {
+                "id": "A",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Gryffindor"
+            },
+            {
+                "id": "B",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Hufflepuff"
+            },
+            {
+                "id": "C",
+                "type": "text",
+                "isCorrect": true,
+                "content": "Ravenclaw",
+                "points": 10
+            },
+            {
+                "id": "D",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Slytherin"
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "multipleChoice": true,
+        "text": "What magical creature is known for guarding Gringotts bank?",
+        "media": {
+            "type": "image",
+            "content": ""
+        },
+        "answers": [
+            {
+                "id": "A",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Thestral"
+            },
+            {
+                "id": "B",
+                "type": "text",
+                "isCorrect": true,
+                "content": "Dragon",
+                "points": 10
+            },
+            {
+                "id": "C",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Hippogriff"
+            },
+            {
+                "id": "D",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Basilisk"
+            }
+        ]
+    },
+    {
+        "id": "4",
+        "multipleChoice": true,
+        "text": "Which spell would you use to summon an object?",
+        "media": {
+            "type": "image",
+            "content": ""
+        },
+        "answers": [
+            {
+                "id": "A",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Expelliarmus"
+            },
+            {
+                "id": "B",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Lumos"
+            },
+            {
+                "id": "C",
+                "type": "text",
+                "isCorrect": true,
+                "content": "Accio",
+                "points": 10
+            },
+            {
+                "id": "D",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Wingardium Leviosa"
+            }
+        ]
+    },
+    {
+        "id": "5",
+        "multipleChoice": true,
+        "text": "Who is the Half-Blood Prince?",
+        "media": {
+            "type": "image",
+            "content": ""
+        },
+        "answers": [
+            {
+                "id": "A",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Albus Dumbledore"
+            },
+            {
+                "id": "B",
+                "type": "text",
+                "isCorrect": true,
+                "content": "Severus Snape",
+                "points": 10
+            },
+            {
+                "id": "C",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Harry Potter"
+            },
+            {
+                "id": "D",
+                "type": "text",
+                "isCorrect": false,
+                "content": "Tom Riddle"
+            }
+          ]
+      }
+   ]
+}
+

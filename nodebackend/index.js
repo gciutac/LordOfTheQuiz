@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/quiz', (req, res) => {
-  const filePath = path.join(__dirname, 'quiz.json')
+  const filePath = path.join(__dirname, 'myQuiz.json')
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       res.status(500).send('Error reading quiz file')

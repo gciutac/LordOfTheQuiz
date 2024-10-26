@@ -1,38 +1,66 @@
-.App {
-  text-align: center;
+/* App.css */
+
+body {
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light gray text for contrast */
+  font-family: 'Arial', sans-serif; /* Clean font */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.container {
+  padding: 20px; 
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.card {
+  background-color: #1e1e1e; /* Slightly lighter dark background for cards */
+  align-items: center;
+  border: none; /* Remove default border */
+  border-radius: 12px; /* Rounded edges */
+  transition: transform 0.2s; /* Smooth scaling on hover */
+  margin: auto; /* Center the card */
+  padding: 1px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+  /* transform: scale(1.02); Slightly scale up on hover */
+
+
+.card-title {
+  font-size: 1.5rem; /* Adjust title size */
+  margin-bottom: 10px; /* Spacing below title */
+  padding: 15px;
 }
+
+.card-img-top {
+  border-radius: 12px 12px 0 0; /* Rounded top edges for images */
+  display: block; /* Make it a block element */
+  margin: 0 auto; /* Center the image */
+  width: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.question-media {
+  border-radius: 8px; /* Rounded top edges for images */
+  display: block; /* Make it a block element */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin: 15px auto; /* Space around the media */
+  max-height: 20rem; /* Ensure it doesn't overflow the card */
+  max-width: 100%; /* Ensure it doesn't overflow the card */
+  width: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
+}
+
+
+.list-group-item {
+  background-color: #2a2a2a; /* Background for answer options */
+  border-radius: 8px; /* Rounded edges */
+  padding: 10px; /* Padding around answers */
+  margin: 10px; /* Space between answers */
+  transition: background-color 0.2s; /* Transition for hover effect */
+}
+
+.list-group-item:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+}
+
