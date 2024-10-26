@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { GameContext } from '../context/GameContext'
 import { Button, Container} from 'react-bootstrap'
+import { io } from 'socket.io-client';
 
 const StartQuiz = () => {
   const location = useLocation()
@@ -14,6 +15,7 @@ const StartQuiz = () => {
   const game = useContext(GameContext).game;
   const [error, setError] = useState(null)
   const [gameData, setGameData] = useState(null)
+  const [reload, setReload] = useState(false)
 
 
   const nextQuestion = async () => {
@@ -32,6 +34,7 @@ const StartQuiz = () => {
     // Handle the question increase logic here
     nextQuestion()
     console.log('Increase question')
+    fetchGame() //this should trigger a refresh
   }
 
   const fetchGame = async () => {
@@ -47,6 +50,21 @@ const StartQuiz = () => {
       console.error('Error fetching game:', error)
     }
   }
+
+  useEffect(() => {
+    const socket = io('http://localhost:5553');
+    socket.on('gameStatus', (data) => {
+      console.log('Received game status:', data);
+      
+      if(data.gameStatus === 'RUNNING') {
+        console.log('Start game')
+        fetchGame()
+      }
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     fetchGame()
