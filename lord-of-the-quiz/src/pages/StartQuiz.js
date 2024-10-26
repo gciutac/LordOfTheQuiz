@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import MultipleChoiseQuestion from './components/MultipleChoiseQuestion'
-import { Card } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
-const StartGame = () => {
+const StartQuiz = () => {
   const location = useLocation()
   const { quizData } = location.state || {}
+  const { gameid } = useParams()
+
+  const [gameKey, setGameKey] = useState('')
+
+  useEffect(() => {
+    const gameId = quizData?.gameId
+    if (gameId) {
+      fetch(`/api/create-game/${gameId}`)
+        .then((response) => response.json())
+        .then((data) => setGameKey(data.gameKey))
+        .catch((error) => console.error('Error fetching game key:', error))
+    }
+  }, [quizData])
+
   return (
     <div>
       {quizData && (
@@ -20,4 +33,4 @@ const StartGame = () => {
   )
 }
 
-export default StartGame
+export default StartQuiz

@@ -19,6 +19,13 @@ app.get('/api/quiz', (req, res) => {
   })
 })
 
+app.get('/api/create-game/:gameId', (req, res) => {
+  const { gameId } = req.params
+  // Generate randowm 5-digit number
+  const randomKey = Math.floor(10000 + Math.random() * 90000)
+  res.json({ gameKey: `${randomKey}` })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

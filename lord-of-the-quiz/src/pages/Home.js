@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
-import StartGame from './StartGame'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const navigate = useNavigate()
-  const [name, setName] = useState('')
   const [error, setError] = useState(null)
   const [quizData, setQuizData] = useState(null)
 
@@ -19,6 +17,7 @@ const Home = () => {
       setQuizData(data)
     } catch (error) {
       setError(error.message)
+      console.error('Error fetching quiz data:', error)
     }
   }
 
@@ -26,9 +25,14 @@ const Home = () => {
     fetchData()
   }, [])
 
-  const handleButtonClick = () => {
+  const handleStartQuizButtonClick = () => {
     const gameid = quizData.gameId
     navigate(`/game/${gameid}`, { state: { quizData } })
+  }
+
+  const handleJoinQuizButtonClick = () => {
+    const gameid = quizData.gameId
+    navigate(`/join/${gameid}`, { state: { quizData } })
   }
 
   return (
@@ -45,9 +49,16 @@ const Home = () => {
             <Button
               variant="primary"
               className="text-center"
-              onClick={handleButtonClick}
+              onClick={handleStartQuizButtonClick}
             >
-              Take Quiz
+              Start Quiz
+            </Button>
+            <Button
+              variant="info"
+              className="text-center m-2"
+              onClick={handleJoinQuizButtonClick}
+            >
+              Join Quiz
             </Button>
           </Card.Body>
         </Card>
