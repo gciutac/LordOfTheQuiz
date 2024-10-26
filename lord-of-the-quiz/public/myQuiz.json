@@ -2,6 +2,10 @@
   "name": "My quiz",
   "gameId": "123123",
   "createdByUser": "123123",
+  "media": {
+          "type": "image",
+          "content": "/Hedwig_Snowy_Owl_PM.webp"
+      },
   "questions": [
     {
       "id": "1",

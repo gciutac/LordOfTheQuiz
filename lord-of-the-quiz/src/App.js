@@ -4,17 +4,22 @@ import Home from './pages/Home'
 import StartQuiz from './pages/StartQuiz'
 import JoinQuiz from './pages/JoinQuiz'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
-import './App.css'
+import { UserProvider } from "./context/UserContext"
+import { GamerProvider } from './context/GameContext'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/game/:gameid" element={<StartQuiz />} />
-        <Route path="/join/:gameid" element={<JoinQuiz />} />
-      </Routes>
-    </Router>
+    <UserProvider>
+      <GamerProvider>
+        <Router>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/join/" element={<JoinQuiz />} />
+            <Route path="/game/:gameid" element={<StartQuiz />} />
+          </Routes>
+        </Router>
+      </GamerProvider>
+    </UserProvider>
   )
 }
 

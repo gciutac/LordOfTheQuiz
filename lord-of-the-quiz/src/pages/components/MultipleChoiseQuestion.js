@@ -15,13 +15,15 @@ const MultipleChoiseQuestion = ({ id, text, media, answers }) => {
           )}
           {/* You can add answers rendering here if needed */}
         </Card.Body>
-        <ListGroup className="list-group-flush">
+        <div className="w-100">
+        <ListGroup className="list-group">
           {answers.map((answer) => (
             <ListGroup.Item key={answer.id}>
               {answer.id}. {answer.content}
             </ListGroup.Item>
           ))}
         </ListGroup>
+        </div>
       </Card>
     </Container>
   )

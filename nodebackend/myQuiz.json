@@ -2,6 +2,10 @@
   "name": "My quiz",
   "gameId": "123123",
   "createdByUser": "123123",
+  "media": {
+          "type": "image",
+          "content": "/FlvdvsTq_400x400.jpg"
+      },
   "questions": [
     {
       "id": "1",
