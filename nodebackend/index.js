@@ -5,14 +5,19 @@ const fs = require('fs')
 const path = require('path')
 const app = express()
 
-const { createGame, nextQuestion, fetchGame } = require('./src/service/GameService')
+const {
+  createGame,
+  nextQuestion,
+  fetchGame,
+} = require('./src/service/GameService')
 const { joinGame } = require('./src/service/PlayerService')
 const port = 5552
-const { Server } = require('socket.io');
+const { Server } = require('socket.io')
 
 connectDB()
 
 let gameContext
+let clients = []
 
 const gameDetails = {
   gameId: '',
@@ -44,7 +49,7 @@ const io = new Server(5553, {
   cors: {
     origin: '*',
   },
-});
+})
 app.get('/', (req, res) => {
   res.send('Quiz!')
 })
@@ -81,7 +86,10 @@ app.get('/api/next-question/:gameKey', async (req, res) => {
   const { gameKey } = req.params
   const updatedGame = await nextQuestion(gameKey)
   console.log('Next question:', updatedGame)
-  io.emit('gameStatus', {gameStatus: updatedGame.gameStatus, currentQuestion: updatedGame.currentQuestion})
+  io.emit('gameStatus', {
+    gameStatus: updatedGame.gameStatus,
+    currentQuestion: updatedGame.currentQuestion,
+  })
   res.json(updatedGame)
 })
 
@@ -119,15 +127,46 @@ app.post(
     res.json({ gameContext })
   }
 )
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
 io.on('connection', (socket) => {
   console.log('A user connected')
   socket.on('gameStatus', (gameStatus) => {
     console.log('Game Status updated:', gameContext)
     io.emit('gameStatus', gameStatus)
   })
+})
+
+app.get('/api/sse', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+  res.flushHeaders() // flush the headers to establish SSE with client
+
+  clients.push(res)
+
+  // Send a heartbeat to keep the connection alive
+  const keepAliveInterval = setInterval(() => {
+    res.write(': keep-alive\n\n')
+  }, 20000) // 20 seconds
+
+  req.on('close', () => {
+    clients = clients.filter((client) => client !== res)
+  })
+})
+
+// Function to send events to all clients
+const sendEventToAll = (id, type, data) => {
+  clients.forEach((client) => {
+    client.write(`id: ${id}\n`)
+    client.write(`event: ${type}\n`)
+    client.write(`data: ${JSON.stringify(data)}\n\n`)
+  })
+}
+
+let eventId = 0
+setInterval(() => {
+  sendEventToAll(eventId++, 'message', { message: 'Hello, clients!' })
+}, 5000)
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
 })
