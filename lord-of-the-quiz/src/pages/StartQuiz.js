@@ -117,21 +117,18 @@ const StartQuiz = () => {
                       <><Button
                         variant="primary"
                         className="text-center"
-                        onClick={questionIncrease}
                       >
                         50/50
                       </Button>
                       <Button
                         variant="primary"
                         className="text-center"
-                        onClick={questionIncrease}
                       >
                           Hint
                       </Button>
                       <Button
                         variant="primary"
                         className="text-center"
-                        onClick={questionIncrease}
                       >
                           Copy &#129323;
                       </Button>

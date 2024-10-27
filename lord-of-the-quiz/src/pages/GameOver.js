@@ -81,6 +81,7 @@ const GameOver = () => {
                   <Button
                     variant="primary"
                     className="text-center"
+                    onClick={() => navigate('/')}
                   >
                     Home
                   </Button>
