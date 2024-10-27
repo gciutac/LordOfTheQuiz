@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      'mongodb://QuizGameUser:password@localhost:27017/quizGameDB',
+      'mongodb://QuizGameUser:password@localhost:27018/quizGameDB',
       {
         authSource: 'quizGameDB',
       }
