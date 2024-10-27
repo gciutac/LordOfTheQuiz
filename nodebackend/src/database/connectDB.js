@@ -1,16 +1,34 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.DATABASE_URL, {
-      authSource: 'quizGameDB',
-    })
+const MAX_RETRIES = 5
+const RETRY_DELAY = 5000 // in milliseconds
 
-    console.log('MongoDB Connected...')
-  } catch (err) {
-    console.error(err.message)
-    process.exit(1)
+const connectDB = async () => {
+  let retries = 0
+
+  while (retries < MAX_RETRIES) {
+    try {
+      console.log('Connecting to MongoDB...')
+      console.log('DATABASE_URL:', process.env.DATABASE_URL)
+      await mongoose.connect(process.env.DATABASE_URL, {
+        authSource: 'quizGameDB',
+      })
+
+      console.log('MongoDB Connected...')
+      break // Exit the loop if connection is successful
+    } catch (err) {
+      retries += 1
+      console.error(`Connection attempt ${retries} failed: ${err.message}`)
+
+      if (retries < MAX_RETRIES) {
+        console.log(`Retrying in ${RETRY_DELAY / 1000} seconds...`)
+        await new Promise((res) => setTimeout(res, RETRY_DELAY))
+      } else {
+        console.error('Max retries reached. Exiting...')
+        process.exit(1)
+      }
+    }
   }
 }
 
