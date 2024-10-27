@@ -38,6 +38,7 @@ const StartQuiz = () => {
 
   const fetchGame = async () => {
     try {
+      console.log('Fetching game:', game)
       const response = await fetch(`/api/game/${game.gameKey}`)
       if (!response.ok) {
         setError('Failed to fetch game')
