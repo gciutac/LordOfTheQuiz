@@ -139,17 +139,24 @@ app.get('/api/sse', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
-  res.flushHeaders() // flush the headers to establish SSE with client
+  res.flushHeaders() // Establish SSE with the client
 
+  // Add the client response object to the active clients list
   clients.push(res)
 
-  // Send a heartbeat to keep the connection alive
-  const keepAliveInterval = setInterval(() => {
-    res.write(': keep-alive\n\n')
-  }, 20000) // 20 seconds
+  // Send an initial message to confirm the connection
+  res.write('data: Connected\n\n')
 
+  // Send a heartbeat every 20 seconds to keep the connection alive
+  const keepAliveInterval = setInterval(() => {
+    res.write(': keep-alive\n\n') // Send a comment line for heartbeat
+  }, 20000)
+
+  // Handle client disconnection
   req.on('close', () => {
+    clearInterval(keepAliveInterval) // Stop heartbeat when client disconnects
     clients = clients.filter((client) => client !== res)
+    res.end() // Clean up the response object
   })
 })
 
