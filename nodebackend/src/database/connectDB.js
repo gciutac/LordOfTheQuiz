@@ -1,13 +1,11 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(
-      'mongodb://QuizGameUser:password@localhost:27018/quizGameDB',
-      {
-        authSource: 'quizGameDB',
-      }
-    )
+    await mongoose.connect(process.env.DATABASE_URL, {
+      authSource: 'quizGameDB',
+    })
 
     console.log('MongoDB Connected...')
   } catch (err) {
