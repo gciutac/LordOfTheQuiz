@@ -72,7 +72,7 @@ const Lobby = () => {
   }, [])
 
   useEffect(() => {
-    const socket = io('http://localhost:5553')
+    const socket = io('https://www.f39.site')
     socket.on('connect', () => {
       console.log('Connected to socket server')
     })
