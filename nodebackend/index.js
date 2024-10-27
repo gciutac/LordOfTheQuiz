@@ -140,6 +140,7 @@ app.get('/api/sse', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
   res.flushHeaders() // Establish SSE with the client
+  console.log('Client connected')
 
   // Add the client response object to the active clients list
   clients.push(res)
