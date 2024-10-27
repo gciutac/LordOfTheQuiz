@@ -3,7 +3,11 @@ const connectDB = require('./src/database/connectDB')
 const Games = require('./src/database/models/Games')
 const fs = require('fs')
 const path = require('path')
+const http = require('http')
+const socketIo = require('socket.io')
 const app = express()
+const server = http.createServer(app)
+const io = socketIo(server)
 
 const {
   createGame,
@@ -45,11 +49,6 @@ const answer = {
   points: 0,
 }
 
-const io = new Server(5553, {
-  cors: {
-    origin: '*',
-  },
-})
 app.get('/', (req, res) => {
   res.send('Quiz!')
 })
@@ -175,6 +174,6 @@ setInterval(() => {
   sendEventToAll(eventId++, 'message', { message: 'Hello, clients!' })
 }, 5000)
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
