@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, ProgressBar } from 'react'
 import MultipleChoiseQuestion from './components/MultipleChoiseQuestion'
 import { useLocation, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -34,6 +34,10 @@ const StartQuiz = () => {
     nextQuestion()
     console.log('Increase question')
     fetchGame() //this should trigger a refresh
+    if(gameData.gameStatus === 'COMPLETED'){
+      console.log('End game')
+      navigate('/gameover')
+    }
   }
 
   const fetchGame = async () => {
@@ -60,6 +64,11 @@ const StartQuiz = () => {
         console.log('Start game')
         fetchGame()
       }
+
+      if (data.gameStatus === 'COMPLETED') {
+        console.log('End game')
+        navigate('/gameover')
+      }
     })
     return () => {
       socket.disconnect()
@@ -73,25 +82,66 @@ const StartQuiz = () => {
   return (
     <div>
       <Container className="d-flex vh-100 align-items-center justify-content-center">
-        {quizData && gameData && gameData.currentQuestion > 0 && (
-          <MultipleChoiseQuestion
-            id={quizData.questions[gameData.currentQuestion - 1].id}
-            text={quizData.questions[gameData.currentQuestion - 1].text}
-            media={
-              quizData.questions[gameData.currentQuestion - 1].media.content
-            }
-            answers={quizData.questions[gameData.currentQuestion - 1].answers}
-          />
-        )}
-        {user.userType === 'master' && (
-          <Button
-            variant="primary"
-            className="text-center"
-            onClick={questionIncrease}
-          >
-            Next
-          </Button>
-        )}
+        <table className="d-flex vh-100 align-items-center justify-content-center">
+          <tbody>
+            <tr>
+              <td>
+                {quizData && gameData && gameData.currentQuestion > 0 && (
+                  <MultipleChoiseQuestion
+                    id={quizData.questions[gameData.currentQuestion - 1].id}
+                    text={quizData.questions[gameData.currentQuestion - 1].text}
+                    media={
+                      quizData.questions[gameData.currentQuestion - 1].media.content
+                    }
+                    answers={quizData.questions[gameData.currentQuestion - 1].answers}
+                  />
+                )}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  style={{ margin: '10px' }}
+                >   {user.userType === 'master' && (
+                      <Button
+                        variant="primary"
+                        className="text-center"
+                        onClick={questionIncrease}
+                      >
+                        Next
+                      </Button>
+                      
+                    )}
+                    {user.userType === 'player' && (
+                      <><Button
+                        variant="primary"
+                        className="text-center"
+                        onClick={questionIncrease}
+                      >
+                        50/50
+                      </Button>
+                      <Button
+                        variant="primary"
+                        className="text-center"
+                        onClick={questionIncrease}
+                      >
+                          Hint
+                      </Button>
+                      <Button
+                        variant="primary"
+                        className="text-center"
+                        onClick={questionIncrease}
+                      >
+                          Copy &#129323;
+                      </Button>
+                      </>
+                    )}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </Container>
     </div>
   )

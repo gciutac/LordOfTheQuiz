@@ -17,6 +17,7 @@ const {
 const { joinGame } = require('./src/service/PlayerService')
 const port = 5552
 const { Server } = require('socket.io')
+const Players = require('./src/database/models/Players')
 
 connectDB()
 
@@ -99,6 +100,13 @@ app.get('/api/join-game/:gameKey/player/:playerName', async (req, res) => {
   const result = await joinGame(gameKey, playerName)
   console.log('Player joined:', result)
   res.json(result)
+})
+
+app.get('/api/players/:gameKey', async (req, res) => {
+  const { gameKey } = req.params
+  const players = await Players.find({ gameKey })
+  console.log('Players fetched:', players)
+  res.json(players)
 })
 
 // Payer answers

@@ -16,6 +16,7 @@ body {
   border: none; /* Remove default border */
   border-radius: 12px; /* Rounded edges */
   transition: transform 0.2s; /* Smooth scaling on hover */
+  max-height: 85vh;
   margin: auto; /* Center the card */
   padding: 1px;
 }
@@ -53,9 +54,10 @@ body {
 
 .list-group-item {
   background-color: #2a2a2a; /* Background for answer options */
+  font-size: 16px;
   border-radius: 8px; /* Rounded edges */
-  padding: 10px; /* Padding around answers */
-  margin: 10px; /* Space between answers */
+  padding: 5px; /* Padding around answers */
+  margin: 3px; /* Space between answers */
   transition: background-color 0.2s; /* Transition for hover effect */
 }
 
@@ -63,3 +65,23 @@ body {
   background-color: #3a3a3a; /* Slightly lighter on hover */
 }
 
+.loby-list-item {
+  background-color: #2a2a2a; /* Background for answer options */
+  border-radius: 0 !important; /* Rounded edges */
+  border-top-color: #e0e0e0;
+  border-bottom-color: #e0e0e0;
+  padding: 2px; /* Padding around answers */
+  margin: 0px; /* Space between answers */
+  transition: background-color 0.2s; /* Transition for hover effect */
+}
+
+button {
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}

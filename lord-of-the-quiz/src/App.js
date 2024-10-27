@@ -3,6 +3,7 @@ import React from 'react'
 import Home from './pages/Home'
 import StartQuiz from './pages/StartQuiz'
 import JoinQuiz from './pages/JoinQuiz'
+import GameOver from './pages/GameOver'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 import { UserProvider } from "./context/UserContext"
 import { GamerProvider } from './context/GameContext'
@@ -17,7 +18,8 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route path="/join" element={<JoinQuiz />} />
             <Route path="/game" element={<StartQuiz />} />
-            <Route path="/loby" element={<Lobby />} />
+            <Route path="/lobby" element={<Lobby />} />
+            <Route path="/gameover" element={<GameOver />} />
           </Routes>
         </Router>
       </GamerProvider>

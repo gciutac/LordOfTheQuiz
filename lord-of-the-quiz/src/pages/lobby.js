@@ -6,9 +6,7 @@ import {
   Table,
   Button,
   Card,
-  FloatingLabel,
-  Row,
-  Col,
+  ListGroup
 } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import { UserContext } from '../context/UserContext'
@@ -22,6 +20,23 @@ const Lobby = () => {
   const user = useContext(UserContext).user
   const { game, updateGame } = useContext(GameContext)
   const [error, setError] = useState(null)
+  const [playersData, setPlayersData] = useState([])
+
+  const fetchPlayers = async () => {
+    try {
+      console.log('Fetching game:', game)
+      const response = await fetch(`/api/players/${game.gameKey}`)
+      if (!response.ok) {
+        setError('Failed to fetch game')
+      }
+      const data = await response.json()
+      setPlayersData(data)
+      console.log('Players:', data)
+    } catch (error) {
+      setError(error.message)
+      console.error('Error fetching game:', error)
+    }
+  }
 
   const nextQuestion = async () => {
     try {
@@ -93,6 +108,10 @@ const Lobby = () => {
     }
   }, [])
 
+  useEffect(() => {
+    fetchPlayers()
+  }, [])
+
   const handleStart = () => {
     // Handle the start logic here
     questionIncrease()
@@ -115,30 +134,25 @@ const Lobby = () => {
               <td>
                 <Card style={{ width: '18rem' }} className="shadow-sm rounded">
                   <Card.Title className="text-center">
-                    {quizData?.name}
+                  Join: {game.gameKey}
                   </Card.Title>
                   <Card.Text className="text-center">
-                    Game Code: {game.gameKey}
+                    {quizData?.name}
                   </Card.Text>
                   <Card.Img
                     variant="top"
                     src="/FlvdvsTq_400x400.jpg"
                     style={{ width: '10rem' }}
                   />
-                  <Card.Body>
-                    <Table className="text-light">
-                      <thead>
-                        <tr>
-                          <th>Quiz Master</th>
-                          <th>{quizData.createdByUser}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>{user.username}</td>
-                        </tr>
-                      </tbody>
-                    </Table>
+                  <Card.Body className='justify-content-center'>
+                    <Card.Title>Players</Card.Title>
+                    <ListGroup>
+                        {playersData.map((player) => (
+                          <ListGroup.Item className="loby-list-item">
+                            {player.playerName}
+                          </ListGroup.Item>
+                        ))}
+                    </ListGroup>
                   </Card.Body>
                 </Card>
               </td>
