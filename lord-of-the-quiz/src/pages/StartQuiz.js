@@ -4,19 +4,18 @@ import { useLocation, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { GameContext } from '../context/GameContext'
-import { Button, Container} from 'react-bootstrap'
-import { io } from 'socket.io-client';
+import { Button, Container } from 'react-bootstrap'
+import { io } from 'socket.io-client'
 
 const StartQuiz = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const { quizData } = location.state || {}
-  const user = useContext(UserContext).user;
-  const game = useContext(GameContext).game;
+  const user = useContext(UserContext).user
+  const game = useContext(GameContext).game
   const [error, setError] = useState(null)
   const [gameData, setGameData] = useState(null)
   const [reload, setReload] = useState(false)
-
 
   const nextQuestion = async () => {
     try {
@@ -52,19 +51,19 @@ const StartQuiz = () => {
   }
 
   useEffect(() => {
-    const socket = io('http://localhost:5553');
+    const socket = io('https://www.f39.site')
     socket.on('gameStatus', (data) => {
-      console.log('Received game status:', data);
-      
-      if(data.gameStatus === 'RUNNING') {
+      console.log('Received game status:', data)
+
+      if (data.gameStatus === 'RUNNING') {
         console.log('Start game')
         fetchGame()
       }
-    });
+    })
     return () => {
-      socket.disconnect();
-    };
-  }, []);
+      socket.disconnect()
+    }
+  }, [])
 
   useEffect(() => {
     fetchGame()
@@ -73,19 +72,22 @@ const StartQuiz = () => {
   return (
     <div>
       <Container className="d-flex vh-100 align-items-center justify-content-center">
-        {quizData && gameData && gameData.currentQuestion>0 && (
+        {quizData && gameData && gameData.currentQuestion > 0 && (
           <MultipleChoiseQuestion
-            id={quizData.questions[gameData.currentQuestion-1].id}
-            text={quizData.questions[gameData.currentQuestion-1].text}
-            media={quizData.questions[gameData.currentQuestion-1].media.content}
-            answers={quizData.questions[gameData.currentQuestion-1].answers}
+            id={quizData.questions[gameData.currentQuestion - 1].id}
+            text={quizData.questions[gameData.currentQuestion - 1].text}
+            media={
+              quizData.questions[gameData.currentQuestion - 1].media.content
+            }
+            answers={quizData.questions[gameData.currentQuestion - 1].answers}
           />
         )}
         {user.userType === 'master' && (
-          <Button 
-          variant="primary"
-          className="text-center" 
-          onClick={questionIncrease}>
+          <Button
+            variant="primary"
+            className="text-center"
+            onClick={questionIncrease}
+          >
             Next
           </Button>
         )}
